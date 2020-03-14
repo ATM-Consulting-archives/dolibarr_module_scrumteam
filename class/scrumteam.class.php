@@ -104,8 +104,8 @@ class ScrumTeam extends CommonObject
 		'fk_user_creat' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserAuthor', 'enabled'=>1, 'position'=>510, 'notnull'=>1, 'visible'=>-2, 'foreignkey'=>'user.rowid',),
 		'fk_user_modif' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'UserModif', 'enabled'=>1, 'position'=>511, 'notnull'=>-1, 'visible'=>-2,),
 		'import_key' => array('type'=>'varchar(14)', 'label'=>'ImportId', 'enabled'=>1, 'position'=>1000, 'notnull'=>-1, 'visible'=>-2,),
-		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>1, 'position'=>1010, 'notnull'=>-1, 'visible'=>-1,),
-		'status' => array('type'=>'smallint', 'label'=>'Status', 'enabled'=>1, 'position'=>1000, 'notnull'=>1, 'visible'=>1, 'index'=>1, 'arrayofkeyval'=>array('0'=>'Brouillon', '1'=>'Valid&eacute;', '9'=>'Annul&eacute;'),),
+		'model_pdf' => array('type'=>'varchar(255)', 'label'=>'Model pdf', 'enabled'=>1, 'position'=>1010, 'notnull'=>-1, 'visible'=> 0,),
+		'status' => array('type'=>'smallint', 'label'=>'Status', 'enabled'=>1, 'position'=>1000, 'notnull'=>1, 'default'=>0, 'visible'=>2, 'index'=>1, 'arrayofkeyval'=>array('0'=>'Brouillon', '1'=>'Valid&eacute;', '9'=>'Annul&eacute;'),),
 		'date_validation' => array('type'=>'datetime', 'label'=>'DateValidation', 'enabled'=>1, 'position'=>502, 'notnull'=>0, 'visible'=>-2,),
 		'fk_user_valid' => array('type'=>'integer', 'label'=>'UserValid', 'enabled'=>1, 'position'=>512, 'notnull'=>0, 'visible'=>-2,),
 		'entity' => array('type'=>'integer', 'label'=>'Entity', 'enabled'=>1, 'position'=>2, 'notnull'=>1, 'visible'=>-2,),
@@ -173,6 +173,8 @@ class ScrumTeam extends CommonObject
 		global $conf, $langs;
 
 		$this->db = $db;
+
+		$this->status = 0;
 
 		if (empty($conf->global->MAIN_SHOW_TECHNICAL_ID) && isset($this->fields['rowid'])) $this->fields['rowid']['visible'] = 0;
 		if (empty($conf->multicompany->enabled) && isset($this->fields['entity'])) $this->fields['entity']['enabled'] = 0;
@@ -968,6 +970,7 @@ class ScrumTeam extends CommonObject
 	 */
 	public function generateDocument($modele, $outputlangs, $hidedetails = 0, $hidedesc = 0, $hideref = 0, $moreparams = null)
 	{
+	    return null;
 		global $conf, $langs;
 
 		$langs->load("scrumteam@scrumteam");

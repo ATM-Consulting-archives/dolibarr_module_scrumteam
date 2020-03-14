@@ -124,7 +124,7 @@ class modScrumTeam extends DolibarrModules
         $this->requiredby = array(); // List of module class names as string to disable if this one is disabled. Example: array('modModuleToDisable1', ...)
         $this->conflictwith = array(); // List of module class names as string this module is in conflict with. Example: array('modModuleToDisable1', ...)
         $this->langfiles = array("scrumteam@scrumteam");
-        $this->phpmin = array(5, 5); // Minimum version of PHP required by module
+        $this->phpmin = array(7,0); // Minimum version of PHP required by module
         $this->need_dolibarr_version = array(11, -3); // Minimum version of Dolibarr required by module
         $this->warnings_activation = array(); // Warning to show when we activate module. array('always'='text') or array('FR'='textfr','ES'='textes'...)
         $this->warnings_activation_ext = array(); // Warning to show when we activate an external module. array('always'='text') or array('FR'='textfr','ES'='textes'...)
@@ -259,6 +259,21 @@ class modScrumTeam extends DolibarrModules
         $this->rights[$r][4] = 'scrumteam'; // In php code, permission will be checked by test if ($user->rights->scrumteam->level1->level2)
         $this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->scrumteam->level1->level2)
         $r++;
+        $this->rights[$r][0] = $this->numero + $r; // Permission id (must not be already used)
+        $this->rights[$r][1] = 'Read objects of ScrumTeam'; // Permission label
+        $this->rights[$r][4] = 'scrumteammember'; // In php code, permission will be checked by test if ($user->rights->scrumteam->level1->level2)
+        $this->rights[$r][5] = 'read'; // In php code, permission will be checked by test if ($user->rights->scrumteam->level1->level2)
+        $r++;
+        $this->rights[$r][0] = $this->numero + $r; // Permission id (must not be already used)
+        $this->rights[$r][1] = 'Create/Update objects of ScrumTeam'; // Permission label
+        $this->rights[$r][4] = 'scrumteammember'; // In php code, permission will be checked by test if ($user->rights->scrumteam->level1->level2)
+        $this->rights[$r][5] = 'write'; // In php code, permission will be checked by test if ($user->rights->scrumteam->level1->level2)
+        $r++;
+        $this->rights[$r][0] = $this->numero + $r; // Permission id (must not be already used)
+        $this->rights[$r][1] = 'Delete objects of ScrumTeam'; // Permission label
+        $this->rights[$r][4] = 'scrumteammember'; // In php code, permission will be checked by test if ($user->rights->scrumteam->level1->level2)
+        $this->rights[$r][5] = 'delete'; // In php code, permission will be checked by test if ($user->rights->scrumteam->level1->level2)
+        $r++;
         /* END MODULEBUILDER PERMISSIONS */
 
         // Main menu entries to add
@@ -331,7 +346,7 @@ class modScrumTeam extends DolibarrModules
             'fk_menu'=>'fk_mainmenu=scrumteam',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'List ScrumTeam',
+            'titre'=>'MenuScrumTeamList',
             'mainmenu'=>'scrumteam',
             'leftmenu'=>'scrumteam_scrumteam',
             'url'=>'/scrumteam/scrumteam_list.php',
@@ -346,15 +361,58 @@ class modScrumTeam extends DolibarrModules
             // 0=Menu for internal users, 1=external users, 2=both
             'user'=>2,
         );
+
         $this->menu[$r++]=array(
             // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
             'fk_menu'=>'fk_mainmenu=scrumteam,fk_leftmenu=scrumteam_scrumteam',
             // This is a Left menu entry
             'type'=>'left',
-            'titre'=>'New ScrumTeam',
+            'titre'=>'MenuNewScrumTeam',
             'mainmenu'=>'scrumteam',
             'leftmenu'=>'scrumteam_scrumteam',
             'url'=>'/scrumteam/scrumteam_card.php?action=create',
+            // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+            'langs'=>'scrumteam@scrumteam',
+            'position'=>1100+$r,
+            // Define condition to show or hide menu entry. Use '$conf->scrumteam->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
+            'enabled'=>'$conf->scrumteam->enabled',
+            // Use 'perms'=>'$user->rights->scrumteam->level1->level2' if you want your menu with a permission rules
+            'perms'=>'1',
+            'target'=>'',
+            // 0=Menu for internal users, 1=external users, 2=both
+            'user'=>2
+        );
+
+        $this->menu[$r++]=array(
+            // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
+            'fk_menu'=>'fk_mainmenu=scrumteam',
+            // This is a Left menu entry
+            'type'=>'left',
+            'titre'=>'MenuScrumTeamMemberList',
+            'mainmenu'=>'scrumteam',
+            'leftmenu'=>'scrumteam_teammember',
+            'url'=>'/scrumteam/scrumteammember_list.php',
+            // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
+            'langs'=>'scrumteam@scrumteam',
+            'position'=>1100+$r,
+            // Define condition to show or hide menu entry. Use '$conf->scrumteam->enabled' if entry must be visible if module is enabled. Use '$leftmenu==\'system\'' to show if leftmenu system is selected.
+            'enabled'=>'$conf->scrumteam->enabled',
+            // Use 'perms'=>'$user->rights->scrumteam->level1->level2' if you want your menu with a permission rules
+            'perms'=>'1',
+            'target'=>'',
+            // 0=Menu for internal users, 1=external users, 2=both
+            'user'=>2,
+        );
+
+        $this->menu[$r++]=array(
+            // '' if this is a top menu. For left menu, use 'fk_mainmenu=xxx' or 'fk_mainmenu=xxx,fk_leftmenu=yyy' where xxx is mainmenucode and yyy is a leftmenucode
+            'fk_menu'=>'fk_mainmenu=scrumteam,fk_leftmenu=scrumteam_scrumteam',
+            // This is a Left menu entry
+            'type'=>'left',
+            'titre'=>'MenuNewScrumTeamMember',
+            'mainmenu'=>'scrumteam',
+            'leftmenu'=>'scrumteam_teammember',
+            'url'=>'/scrumteam/scrumteammember_card.php?action=create',
             // Lang file to use (without .lang) by module. File must be in langs/code_CODE/ directory.
             'langs'=>'scrumteam@scrumteam',
             'position'=>1100+$r,

@@ -28,6 +28,6 @@ CREATE TABLE llx_scrumteam_scrumteammember(
 	fk_user integer NOT NULL, 
 	type integer NOT NULL, 
 	fk_scrumteam integer, 
-	entity integer DEFAULT 1 NOT NULL
+	ref varchar(128) NOT NULL
 	-- END MODULEBUILDER FIELDS
 ) ENGINE=innodb;

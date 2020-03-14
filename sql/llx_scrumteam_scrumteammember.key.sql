@@ -18,6 +18,7 @@
 ALTER TABLE llx_scrumteam_scrumteammember ADD INDEX idx_scrumteam_scrumteammember_rowid (rowid);
 ALTER TABLE llx_scrumteam_scrumteammember ADD CONSTRAINT llx_scrumteam_scrumteammember_fk_user_creat FOREIGN KEY (fk_user_creat) REFERENCES llx_user(rowid);
 ALTER TABLE llx_scrumteam_scrumteammember ADD INDEX idx_scrumteam_scrumteammember_type (type);
+ALTER TABLE llx_scrumteam_scrumteammember ADD INDEX idx_scrumteam_scrumteammember_ref (ref);
 -- END MODULEBUILDER INDEXES
 
 --ALTER TABLE llx_scrumteam_scrumteammember ADD UNIQUE INDEX uk_scrumteam_scrumteammember_fieldxy(fieldx, fieldy);

@@ -105,7 +105,7 @@ class ScrumTeamMember extends CommonObject
 		'fk_user' => array('type'=>'integer:User:user/class/user.class.php', 'label'=>'User', 'enabled'=>1, 'position'=>10, 'notnull'=>1, 'visible'=>1, 'comment'=>"Utilisateur lié au teamMember"),
 		'type' => array('type'=>'integer', 'label'=>'Type', 'enabled'=>1, 'position'=>20, 'notnull'=>1, 'visible'=>1, 'index'=>1, 'arrayofkeyval'=>array('0'=>'dev', '1'=>'PO'),),
 		'fk_scrumteam' => array('type'=>'integer:ScrumTeam:scrumteam/class/scrumteam.class.php', 'label'=>'ScrumTeam', 'enabled'=>1, 'position'=>3, 'notnull'=>0, 'visible'=>1, 'comment'=>"scrumteam liée"),
-		'entity' => array('type'=>'integer', 'label'=>'Entity', 'enabled'=>1, 'position'=>50, 'notnull'=>1, 'visible'=>-2,),
+		'ref' => array('type'=>'varchar(128)', 'label'=>'Ref', 'enabled'=>1, 'position'=>5, 'notnull'=>1, 'visible'=>4, 'index'=>1, 'searchall'=>1, 'comment'=>"Reference of object"),
 	);
 	public $rowid;
 	public $label;
@@ -119,7 +119,7 @@ class ScrumTeamMember extends CommonObject
 	public $fk_user;
 	public $type;
 	public $fk_scrumteam;
-	public $entity;
+	public $ref;
 	// END MODULEBUILDER PROPERTIES
 
 
@@ -899,7 +899,7 @@ class ScrumTeamMember extends CommonObject
 	public function getNextNumRef()
 	{
 		global $langs, $conf;
-		$langs->load("scrumteam@scrumteammember");
+		$langs->load("scrumteam@scrumteam");
 
 		if (empty($conf->global->SCRUMTEAM_SCRUMTEAMMEMBER_ADDON)) {
 			$conf->global->SCRUMTEAM_SCRUMTEAMMEMBER_ADDON = 'mod_scrumteammember_standard';
@@ -913,7 +913,7 @@ class ScrumTeamMember extends CommonObject
 			$classname = $conf->global->SCRUMTEAM_SCRUMTEAMMEMBER_ADDON;
 
 			// Include file with class
-			$dirmodels = array_merge(array('/'), (array) $conf->modules_parts['models']);
+			$dirmodels = array_merge(array('/', 'custom/scrumteam/'), (array) $conf->modules_parts['models']);
 			foreach ($dirmodels as $reldir)
 			{
 				$dir = dol_buildpath($reldir."core/modules/scrumteam/");

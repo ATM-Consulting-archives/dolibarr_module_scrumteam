@@ -46,3 +46,9 @@ MyPageName = Nom de ma page
 #
 MyWidget = Mon widget
 MyWidgetDescription = Description de mon widget
+
+# Menu
+MenuScrumTeamList=Liste de ScrumTeam
+MenuNewScrumTeam=Nouvelle ScrumTeam
+MenuScrumTeamMemberList=Liste des membres de ScrumTeam
+MenuNewScrumTeamMember=Nouveau membre d'équipe
